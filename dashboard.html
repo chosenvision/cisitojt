@@ -1,0 +1,2967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransCo - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced Background Design Elements */
+        .bg-decoration {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.08;
+        }
+
+        .bg-decoration.circle-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .bg-decoration.circle-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border-radius: 50%;
+            bottom: -80px;
+            left: 100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        .bg-decoration.circle-3 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            border-radius: 50%;
+            top: 30%;
+            right: 5%;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .bg-decoration.triangle-1 {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 100px solid #3b82f6;
+            top: 20%;
+            left: 5%;
+            animation: rotate 15s linear infinite;
+        }
+
+        .bg-decoration.triangle-2 {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid #10b981;
+            bottom: 30%;
+            right: 15%;
+            animation: rotate 20s linear infinite reverse;
+        }
+
+        .bg-decoration.triangle-3 {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 85px solid #8b5cf6;
+            top: 70%;
+            left: 5%;
+            animation: rotate 18s linear infinite;
+        }
+
+        .bg-decoration.diamond-1 {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            transform: rotate(45deg);
+            top: 15%;
+            right: 25%;
+            animation: float 14s ease-in-out infinite reverse;
+        }
+
+        .bg-decoration.diamond-2 {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #06b6d4, #8b5cf6);
+            transform: rotate(45deg);
+            bottom: 20%;
+            right: 8%;
+            animation: float 16s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            position: relative;
+        }
+
+        .login-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1));
+        }
+
+        .login-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .brand-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .brand-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 3rem;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        .logo-placeholder {
+            color: white;
+            font-size: 0.875rem;
+            text-align: center;
+            opacity: 0.8;
+            line-height: 1.2;
+        }
+
+        .brand-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .brand-title .trans {
+            color: #10b981;
+        }
+
+        .brand-title .co {
+            color: #3b82f6;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .forgot-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .signup-link {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .signup-link a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Signup Page Styles */
+        .signup-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .signup-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #e5e7eb;
+        }
+
+        /* Header Navigation - Version 1 Style */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0.25rem;
+        }
+
+        .header-logo-placeholder {
+            color: white;
+            font-size: 0.625rem;
+            text-align: center;
+            opacity: 0.9;
+            line-height: 1.1;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-text .trans {
+            color: #10b981;
+        }
+
+        .logo-text .co {
+            color: #3b82f6;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .print-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .print-btn {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .print-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            z-index: 1000;
+            top: 100%;
+            right: 0;
+            margin-top: 0.25rem;
+        }
+
+        .dropdown-content a {
+            color: #374151;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background: #f9fafb;
+        }
+
+        .dropdown-section {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-section:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-label {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .add-btn {
+            width: 2rem;
+            height: 2rem;
+            background: #3b82f6;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-btn:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+
+        .profile-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #f3f4f6;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #6b7280;
+            transition: all 0.2s;
+        }
+
+        .profile-icon:hover {
+            border-color: #d1d5db;
+            background: #f9fafb;
+        }
+
+        /* Main content area - Version 1 Style */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* MOVING DASHBOARD SECTION - Only this part animated */
+        .welcome-section {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Moving background animation */
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: moveBackground 8s ease-in-out infinite;
+        }
+
+        .welcome-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: moveBackground 12s ease-in-out infinite reverse;
+        }
+
+        @keyframes moveBackground {
+            0%, 100% { 
+                transform: translateX(0px) translateY(0px) rotate(0deg); 
+            }
+            25% { 
+                transform: translateX(-30px) translateY(-20px) rotate(90deg); 
+            }
+            50% { 
+                transform: translateX(20px) translateY(-30px) rotate(180deg); 
+            }
+            75% { 
+                transform: translateX(30px) translateY(20px) rotate(270deg); 
+            }
+        }
+
+        .welcome-section h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 2px;
+            animation: titlePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { 
+                transform: scale(1); 
+                text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+            50% { 
+                transform: scale(1.02); 
+                text-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            font-weight: 500;
+            animation: subtitleFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes subtitleFloat {
+            0%, 100% { 
+                transform: translateY(0px); 
+                opacity: 0.9;
+            }
+            50% { 
+                transform: translateY(-5px); 
+                opacity: 1;
+            }
+        }
+
+        /* Stats cards - Version 1 Style */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .stat-icon.blue {
+            background: #dbeafe;
+            color: #3b82f6;
+        }
+
+        .stat-icon.yellow {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .stat-icon.green {
+            background: #d1fae5;
+            color: #10b981;
+        }
+
+        .stat-icon.orange {
+            background: #fed7aa;
+            color: #f97316;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* Content card - Version 1 Style */
+        .content-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .action-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        /* Filter section - Version 1 Style */
+        .filter-section {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1.5rem;
+            border: 1px solid #f1f5f9;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 150px;
+        }
+
+        .filter-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background: white;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .clear-filters-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            height: fit-content;
+            transition: background 0.2s;
+        }
+
+        .clear-filters-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Table styles - Version 1 Style */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem;
+        }
+
+        .requests-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .requests-table th {
+            background: #f9fafb;
+            padding: 0.75rem 0.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        .requests-table td {
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+
+        .requests-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.it-support {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge.is-support {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.resolved,
+        .status-badge.completed {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .status-badge.in-progress {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-badge.open {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-badge.closed {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .btn-edit,
+        .btn-view,
+        .btn-delete {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-edit:hover {
+            background: #dbeafe;
+        }
+
+        .btn-view:hover {
+            background: #d1fae5;
+        }
+
+        .btn-delete:hover {
+            background: #fee2e2;
+        }
+
+        .days-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .days-badge.pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .days-badge.overdue {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Pagination - Version 1 Style */
+        .pagination-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Modal styles - Version 1 Style */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .request-modal-content {
+            width: min(800px, 90vw);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #1f2937;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+        }
+
+        .close:hover {
+            color: #6b7280;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-section h3 {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: #4b5563;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Profile modal - Version 1 Style */
+        .profile-content {
+            width: min(400px, 90vw);
+            text-align: center;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+        }
+
+        .profile-header h2 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .profile-body {
+            padding: 1.5rem;
+        }
+
+        .profile-body h3 {
+            color: #1f2937;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .profile-avatar {
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+
+        .profile-info {
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        .profile-info p {
+            margin: 0.5rem 0;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* View modal - Version 1 Style */
+        .view-modal-content {
+            width: min(700px, 90vw);
+        }
+
+        .view-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .view-section h3 {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .view-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .view-item label {
+            font-weight: 600;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .view-item span {
+            color: #1f2937;
+            font-size: 0.875rem;
+        }
+
+        .remarks-content {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: #1f2937;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Page visibility */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Icons */
+        .icon {
+            width: 1rem;
+            height: 1rem;
+            display: inline-block;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .login-left,
+            .login-right {
+                flex: none;
+            }
+
+            .brand-section {
+                margin-bottom: 1rem;
+            }
+
+            .brand-logo {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .brand-title {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem 0;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .table-actions {
+                justify-content: center;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .view-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions,
+            .profile-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+            }
+            
+            .requests-table {
+                font-size: 10px;
+            }
+            
+            .requests-table th,
+            .requests-table td {
+                padding: 4px;
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Background Decorations -->
+    <div class="bg-decoration circle-1"></div>
+    <div class="bg-decoration circle-2"></div>
+    <div class="bg-decoration circle-3"></div>
+    <div class="bg-decoration triangle-1"></div>
+    <div class="bg-decoration triangle-2"></div>
+    <div class="bg-decoration triangle-3"></div>
+    <div class="bg-decoration diamond-1"></div>
+    <div class="bg-decoration diamond-2"></div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-left">
+                <div class="brand-section">
+                    <div class="brand-logo">
+                        <!-- Logo placeholder - replace with your logo -->
+                        
+                    <img src="Users/cisitojt/Downloads/logo.png" alt="TransCo Logo" className="w-24 h-24 object-contain" />
+                    </div>
+                    <div class="brand-title">
+                        <span class="trans">Trans</span><span class="co">Co</span>
+                    </div>
+                    <p style="color: #6b7280; font-size: 1.125rem;">IT/IS Support Request Management System</p>
+                </div>
+            </div>
+            
+            <div class="login-right">
+                <div class="login-card">
+                    <div class="login-header">
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to your TransCo account</p>
+                    </div>
+                    
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="remember" name="remember">
+                                Remember me
+                            </label>
+                            <a href="#" class="forgot-link" onclick="openForgotPasswordModal()">Forgot password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Sign In</button>
+                    </form>
+                    
+                    <div class="signup-link">
+                        Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signupPage" class="page">
+        <div class="signup-container">
+            <div class="signup-card">
+                <button class="close-btn" onclick="showLogin()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                
+                <div class="login-header">
+                    <h2>Get Started</h2>
+                    <p>Create your TransCo account</p>
+                </div>
+                
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" name="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Create Account</button>
+                </form>
+                
+                <div class="signup-link">
+                    Already have an account? <a href="#" onclick="showLogin()">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <!-- Logo placeholder - replace with your logo -->
+                        <div class="header-logo-placeholder">Your Logo</div>
+                    </div>
+                    <span class="logo-text">
+                        <span class="trans">Trans</span><span class="co">Co</span>
+                    </span>
+                </div>
+                
+                <nav class="nav-menu">
+                    <button class="nav-btn" onclick="showAbout()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        About
+                    </button>
+                    <button class="nav-btn" onclick="showContacts()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Contact
+                    </button>
+                    <button class="nav-btn" onclick="showForms()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Forms
+                    </button>
+                    
+                    <div class="print-dropdown">
+                        <button class="print-btn" onclick="togglePrintDropdown()">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                            </svg>
+                            Print ▼
+                        </button>
+                        <div id="printDropdown" class="dropdown-content">
+                            <div class="dropdown-section">
+                                <div class="dropdown-label">Report Type</div>
+                                <a href="#" onclick="printReport('all', 'portrait')">All Requests</a>
+                                <a href="#" onclick="printReport('IT Support', 'portrait')">IT Support</a>
+                                <a href="#" onclick="printReport('IS Support', 'portrait')">IS Support</a>
+                            </div>
+                            <div class="dropdown-section">
+                                <div class="dropdown-label">Orientation</div>
+                                <a href="#" onclick="showPrintOptions()">Custom Print Options</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="add-btn" onclick="openAddModal()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </button>
+                    <div class="profile-icon" onclick="toggleProfileModal()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- MOVING DASHBOARD SECTION - Only this part has animation -->
+            <div class="welcome-section">
+                <h1>DASHBOARD</h1>
+                <p class="dashboard-subtitle">IT/IS Support Request Management System</p>
+            </div>
+            
+            <!-- Stats Grid - Version 1 Style -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon blue">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="totalRequests">0</span>
+                            <span class="stat-label">Total Requests</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon yellow">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="pendingRequests">0</span>
+                            <span class="stat-label">Pending</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon green">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="completedRequests">0</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon orange">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="inProgressRequests">0</span>
+                            <span class="stat-label">In Progress</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Card - Version 1 Style -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        Support Requests
+                    </h2>
+                    <div class="table-actions">
+                        <button class="action-btn" onclick="refreshTable()">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Refresh
+                        </button>
+                        <button class="action-btn" onclick="toggleFilters()">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"></path>
+                            </svg>
+                            Filter
+                        </button>
+                        <button class="action-btn" onclick="exportData()">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Export
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Enhanced Filter Section -->
+                <div id="filterSection" class="filter-section" style="display: none;">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="filterRequestor">Requestor</label>
+                            <input type="text" id="filterRequestor" placeholder="Search by name..." onchange="applyFilters()">
+                        </div>
+                        <div class="filter-group">
+                            <label for="filterStatus">Status</label>
+                            <select id="filterStatus" onchange="applyFilters()">
+                                <option value="">All Status</option>
+                                <option value="Open">Open</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filterSupport">Support Type</label>
+                            <select id="filterSupport" onchange="applyFilters()">
+                                <option value="">All Types</option>
+                                <option value="IT Support">IT Support</option>
+                                <option value="IS Support">IS Support</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filterDateFrom">From Date</label>
+                            <input type="date" id="filterDateFrom" onchange="applyFilters()">
+                        </div>
+                        <div class="filter-group">
+                            <label for="filterDateTo">To Date</label>
+                            <input type="date" id="filterDateTo" onchange="applyFilters()">
+                        </div>
+                        <button class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="requests-table" id="requests-table">
+                        <thead>
+                            <tr>
+                                <th>Requestor</th>
+                                <th>Cost Center</th>
+                                <th>Date Request</th>
+                                <th>Time Request</th>
+                                <th>Support Desk</th>
+                                <th>Date Acknowledge</th>
+                                <th>Acknowledged By</th>
+                                <th>Date Closed</th>
+                                <th>Time Closed</th>
+                                <th>Tech Support</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                                <th>Email Subject</th>
+                                <th>Findings</th>
+                                <th>Days to Complete</th>
+                                <th class="no-print">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Data will be loaded from localStorage -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-section">
+                    <div class="pagination-info">
+                        Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalEntries">0</span> entries
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Request Modal -->
+    <div id="requestModal" class="modal">
+        <div class="modal-content request-modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Request</h2>
+                <button class="close" onclick="closeRequestModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="requestForm">
+                    <div class="form-section">
+                        <h3>
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                            </svg>
+                            Request Information
+                        </h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="requestor">Requestor *</label>
+                                <input type="text" id="requestor" name="requestor" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="costCenter">Cost Center</label>
+                                <input type="text" id="costCenter" name="costCenter">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dateRequest">Date Request *</label>
+                                <input type="date" id="dateRequest" name="dateRequest" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="timeRequest">Time Request *</label>
+                                <input type="time" id="timeRequest" name="timeRequest" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="supportDesk">Support Desk *</label>
+                            <select id="supportDesk" name="supportDesk" required>
+                                <option value="">Select Support Desk</option>
+                                <option value="IT Support">IT Support</option>
+                                <option value="IS Support">IS Support</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailSubject">Email Subject</label>
+                            <input type="text" id="emailSubject" name="emailSubject" placeholder="Brief description of the issue">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="findings">Findings</label>
+                            <textarea id="findings" name="findings" rows="3" placeholder="Detailed findings and resolution steps"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Administrative Information
+                        </h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dateAcknowledge">Date Acknowledge</label>
+                                <input type="date" id="dateAcknowledge" name="dateAcknowledge">
+                            </div>
+                            <div class="form-group">
+                                <label for="acknowledgedBy">Acknowledged By</label>
+                                <input type="text" id="acknowledgedBy" name="acknowledgedBy">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dateClosed">Date Closed</label>
+                                <input type="date" id="dateClosed" name="dateClosed">
+                            </div>
+                            <div class="form-group">
+                                <label for="timeClosed">Time Closed</label>
+                                <input type="time" id="timeClosed" name="timeClosed">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select id="status" name="status">
+                                    <option value="Open">Open</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Resolved">Resolved</option>
+                                    <option value="Closed">Closed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="techSupport">Tech Support</label>
+                                <input type="text" id="techSupport" name="techSupport">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="remarks">Remarks</label>
+                            <textarea id="remarks" name="remarks" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="closeRequestModal()">Cancel</button>
+                        <button type="submit" class="submit-btn">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content profile-content">
+            <div class="profile-header">
+                <h2>TransCo</h2>
+            </div>
+            <div class="profile-body">
+                <h3>User Profile</h3>
+                <div class="profile-avatar">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <div class="profile-info">
+                    <p><strong>Full Name:</strong> <span id="profileName">Sample User</span></p>
+                    <p><strong>Email:</strong> <span id="profileEmail">sample@example.com</span></p>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="cancel-btn" onclick="closeProfileModal()">Cancel</button>
+                <button class="logout-btn" onclick="logout()">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Log Out
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Request Modal -->
+    <div id="viewModal" class="modal">
+        <div class="modal-content view-modal-content">
+            <div class="modal-header">
+                <h2>
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                    </svg>
+                    Request Details
+                </h2>
+                <button class="close" onclick="closeViewModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="viewModalBody">
+                <!-- Content will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="close" onclick="closeForgotPasswordModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="forgotEmail">Enter your email address:</label>
+                        <input type="email" id="forgotEmail" name="forgotEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">Send Reset Link</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Options Modal -->
+    <div id="printOptionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Print Options</h2>
+                <button class="close" onclick="closePrintOptionsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="printOptionsForm">
+                    <div class="form-group">
+                        <label for="printType">Report Type</label>
+                        <select id="printType" name="printType">
+                            <option value="all">All Requests</option>
+                            <option value="IT Support">IT Support</option>
+                            <option value="IS Support">IS Support</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="printOrientation">Orientation</label>
+                        <select id="printOrientation" name="printOrientation">
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="closePrintOptionsModal()">Cancel</button>
+                        <button type="submit" class="submit-btn">Print Report</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let requests = [];
+        let editingRequestId = null;
+
+        // Date formatting functions
+        function formatDateToMMDDYYYY(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${month}/${day}/${year}`;
+        }
+
+        function formatDateToYYYYMMDD(dateString) {
+            if (!dateString) return '';
+            // If already in YYYY-MM-DD format, return as is
+            if (dateString.includes('-')) return dateString;
+            
+            // Convert MM/DD/YYYY to YYYY-MM-DD
+            const parts = dateString.split('/');
+            if (parts.length === 3) {
+                const month = parts[0].padStart(2, '0');
+                const day = parts[1].padStart(2, '0');
+                const year = parts[2];
+                return `${year}-${month}-${day}`;
+            }
+            return dateString;
+        }
+
+        // Local Storage functions
+        function saveRequests() {
+            localStorage.setItem('transco_requests', JSON.stringify(requests));
+        }
+
+        function loadRequests() {
+            const saved = localStorage.getItem('transco_requests');
+            if (saved) {
+                requests = JSON.parse(saved);
+            } else {
+                // Initialize with sample data
+                requests = [
+                    {
+                        id: '1',
+                        requestor: 'SAMPLE REQUESTOR',
+                        costCenter: 'CC-001',
+                        dateRequest: '01/15/2024',
+                        timeRequest: '09:30',
+                        supportDesk: 'IT Support',
+                        dateAcknowledge: '01/15/2024',
+                        acknowledgedBy: 'John Doe',
+                        dateClosed: '01/16/2024',
+                        timeClosed: '17:30',
+                        techSupport: 'Tech Team A',
+                        status: 'Resolved',
+                        remarks: 'Hardware issue resolved',
+                        emailSubject: 'Network connectivity issue',
+                        findings: 'Router configuration updated',
+                        daysToComplete: 1
+                    },
+                    {
+                        id: '2',
+                        requestor: 'ANOTHER SAMPLE',
+                        costCenter: 'CC-002',
+                        dateRequest: '01/16/2024',
+                        timeRequest: '14:15',
+                        supportDesk: 'IS Support',
+                        dateAcknowledge: '01/16/2024',
+                        acknowledgedBy: 'Jane Smith',
+                        dateClosed: '',
+                        timeClosed: '',
+                        techSupport: 'Tech Team B',
+                        status: 'In Progress',
+                        remarks: 'Software installation pending',
+                        emailSubject: 'Software installation request',
+                        findings: 'Pending user approval',
+                        daysToComplete: 0
+                    }
+                ];
+                saveRequests();
+            }
+        }
+
+        function saveUser() {
+            if (currentUser) {
+                localStorage.setItem('transco_user', JSON.stringify(currentUser));
+            }
+        }
+
+        function loadUser() {
+            const saved = localStorage.getItem('transco_user');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                document.getElementById('profileName').textContent = currentUser.name;
+                document.getElementById('profileEmail').textContent = currentUser.email;
+                return true;
+            }
+            return false;
+        }
+
+        // Page navigation functions
+        function showLogin() {
+            hideAllPages();
+            document.getElementById('loginPage').classList.add('active');
+            // Clear user data
+            currentUser = null;
+            localStorage.removeItem('transco_user');
+        }
+
+        function showSignup() {
+            hideAllPages();
+            document.getElementById('signupPage').classList.add('active');
+        }
+
+        function showDashboard() {
+            hideAllPages();
+            document.getElementById('dashboardPage').classList.add('active');
+            loadRequests();
+            renderTable();
+            updateStats();
+        }
+
+        function hideAllPages() {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(function(page) {
+                page.classList.remove('active');
+            });
+        }
+
+        // Authentication functions
+        function login(email, password) {
+            // Mock login - in real app, validate credentials
+            currentUser = { name: 'Sample User', email: email };
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            saveUser();
+            showDashboard();
+        }
+
+        function logout() {
+            showLogin();
+        }
+
+        // Modal functions
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'flex';
+        }
+        
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'none';
+        }
+        
+        function toggleProfileModal() {
+            const modal = document.getElementById('profileModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+        
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+        
+        function togglePrintDropdown() {
+            const dropdown = document.getElementById('printDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showPrintOptions() {
+            document.getElementById('printOptionsModal').style.display = 'flex';
+            document.getElementById('printDropdown').style.display = 'none';
+        }
+
+        function closePrintOptionsModal() {
+            document.getElementById('printOptionsModal').style.display = 'none';
+        }
+        
+        function printReport(type, orientation = 'portrait') {
+            let filteredData = requests;
+            
+            // Filter by type if specified
+            if (type !== 'all') {
+                filteredData = requests.filter(request => request.supportDesk === type);
+            }
+            
+            // Enhanced print styles with better formatting and legends
+            const orientationStyles = orientation === 'landscape' ? 
+                '@page { size: A4 landscape; margin: 0.5in; }' : 
+                '@page { size: A4 portrait; margin: 0.5in; }';
+            
+            // Create print content with enhanced design and legends
+            let printContent = `
+                <html>
+                <head>
+                    <title>TransCo - ${type === 'all' ? 'All' : type} Support Requests</title>
+                    <style>
+                        ${orientationStyles}
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            font-size: 10px;
+                            margin: 0;
+                            color: #333;
+                        }
+                        .header { 
+                            text-align: center; 
+                            margin-bottom: 20px; 
+                            border-bottom: 2px solid #3b82f6;
+                            padding-bottom: 10px;
+                        }
+                        .header h1 { 
+                            font-size: 18px;
+                            color: #3b82f6;
+                            margin: 0;
+                        }
+                        .header p {
+                            font-size: 12px;
+                            color: #666;
+                            margin: 5px 0;
+                        }
+                        .legends {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 15px;
+                            font-size: 8px;
+                        }
+                        .legend-section {
+                            flex: 1;
+                            margin-right: 20px;
+                        }
+                        .legend-title {
+                            font-weight: bold;
+                            color: #374151;
+                            margin-bottom: 5px;
+                            text-transform: uppercase;
+                        }
+                        .legend-item {
+                            display: flex;
+                            align-items: center;
+                            margin: 2px 0;
+                        }
+                        .legend-color {
+                            width: 12px;
+                            height: 12px;
+                            margin-right: 5px;
+                            border-radius: 2px;
+                        }
+                        .support-it { background: #dbeafe; }
+                        .support-is { background: #d1fae5; }
+                        .status-open { background: #dbeafe; }
+                        .status-progress { background: #fef3c7; }
+                        .status-resolved { background: #d1fae5; }
+                        .status-closed { background: #fce4ec; }
+                        .days-normal { background: #d1fae5; }
+                        .days-warning { background: #fef3c7; }
+                        .days-critical { background: #fee2e2; }
+                        table { 
+                            width: 100%; 
+                            border-collapse: collapse; 
+                            font-size: 7px;
+                            margin-top: 10px;
+                        }
+                        th, td { 
+                            border: 1px solid #d1d5db; 
+                            padding: 4px 2px; 
+                            text-align: left; 
+                            word-wrap: break-word;
+                            vertical-align: top;
+                        }
+                        th { 
+                            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+                            font-weight: bold;
+                            color: #374151;
+                            font-size: 8px;
+                        }
+                        .row-number {
+                            background: #f9fafb;
+                            font-weight: bold;
+                            text-align: center;
+                            width: 30px;
+                        }
+                        .badge { 
+                            padding: 2px 6px; 
+                            border-radius: 4px; 
+                            font-size: 6px; 
+                            font-weight: bold;
+                            text-align: center;
+                            display: inline-block;
+                            min-width: 40px;
+                        }
+                        .it-support { 
+                            background: #dbeafe; 
+                            color: #1d4ed8; 
+                            border: 1px solid #93c5fd;
+                        }
+                        .is-support { 
+                            background: #d1fae5; 
+                            color: #047857; 
+                            border: 1px solid #6ee7b7;
+                        }
+                        .status-resolved { 
+                            background: #d1fae5; 
+                            color: #047857; 
+                            border: 1px solid #6ee7b7;
+                        }
+                        .status-in-progress { 
+                            background: #fef3c7; 
+                            color: #d97706; 
+                            border: 1px solid #fcd34d;
+                        }
+                        .status-open { 
+                            background: #dbeafe; 
+                            color: #1d4ed8; 
+                            border: 1px solid #93c5fd;
+                        }
+                        .status-closed { 
+                            background: #fce4ec; 
+                            color: #be185d; 
+                            border: 1px solid #f9a8d4;
+                        }
+                        .days-normal { 
+                            background: #d1fae5; 
+                            color: #047857; 
+                            border: 1px solid #6ee7b7;
+                        }
+                        .days-warning { 
+                            background: #fef3c7; 
+                            color: #d97706; 
+                            border: 1px solid #fcd34d;
+                        }
+                        .days-critical { 
+                            background: #fee2e2; 
+                            color: #dc2626; 
+                            border: 1px solid #fca5a5;
+                        }
+                        .footer {
+                            margin-top: 20px;
+                            text-align: center;
+                            font-size: 8px;
+                            color: #6b7280;
+                            border-top: 1px solid #e5e7eb;
+                            padding-top: 10px;
+                        }
+                        tr:nth-child(even) {
+                            background: #f9fafb;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>TransCo - ${type === 'all' ? 'All' : type} Support Requests</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                        <p>Total Records: ${filteredData.length} | Orientation: ${orientation.charAt(0).toUpperCase() + orientation.slice(1)}</p>
+                    </div>
+                    
+                    <div class="legends">
+                        <div class="legend-section">
+                            <div class="legend-title">Support Desk Types</div>
+                            <div class="legend-item">
+                                <div class="legend-color support-it"></div>
+                                <span>IT Support</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color support-is"></div>
+                                <span>IS Support</span>
+                            </div>
+                        </div>
+                        
+                        <div class="legend-section">
+                            <div class="legend-title">Request Status</div>
+                            <div class="legend-item">
+                                <div class="legend-color status-open"></div>
+                                <span>Open</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color status-progress"></div>
+                                <span>In Progress</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color status-resolved"></div>
+                                <span>Resolved</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color status-closed"></div>
+                                <span>Closed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="legend-section">
+                            <div class="legend-title">Completion Time</div>
+                            <div class="legend-item">
+                                <div class="legend-color days-normal"></div>
+                                <span>1-3 Days (Normal)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color days-warning"></div>
+                                <span>4-7 Days (Warning)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color days-critical"></div>
+                                <span>8+ Days (Critical)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="row-number">#</th>
+                                <th>Requestor</th>
+                                <th>Cost Center</th>
+                                <th>Date Request</th>
+                                <th>Time Request</th>
+                                <th>Support Desk</th>
+                                <th>Date Acknowledge</th>
+                                <th>Acknowledged By</th>
+                                <th>Date Closed</th>
+                                <th>Time Closed</th>
+                                <th>Tech Support</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                                <th>Email Subject</th>
+                                <th>Findings</th>
+                                <th>Days to Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            filteredData.forEach((request, index) => {
+                const daysText = request.daysToComplete > 0 ? `${request.daysToComplete} day${request.daysToComplete !== 1 ? 's' : ''}` : '-';
+                const daysClass = request.daysToComplete === 0 ? 'days-normal' : 
+                                 request.daysToComplete <= 3 ? 'days-normal' :
+                                 request.daysToComplete <= 7 ? 'days-warning' : 'days-critical';
+                
+                printContent += `
+                    <tr>
+                        <td class="row-number">${index + 1}</td>
+                        <td>${request.requestor}</td>
+                        <td>${request.costCenter || '-'}</td>
+                        <td>${request.dateRequest}</td>
+                        <td>${request.timeRequest}</td>
+                        <td><span class="badge ${request.supportDesk.toLowerCase().replace(' ', '-')}">${request.supportDesk}</span></td>
+                        <td>${request.dateAcknowledge || '-'}</td>
+                        <td>${request.acknowledgedBy || '-'}</td>
+                        <td>${request.dateClosed || '-'}</td>
+                        <td>${request.timeClosed || '-'}</td>
+                        <td>${request.techSupport || '-'}</td>
+                        <td><span class="badge status-${request.status.toLowerCase().replace(' ', '-')}">${request.status}</span></td>
+                        <td>${request.remarks || '-'}</td>
+                        <td>${request.emailSubject || '-'}</td>
+                        <td>${request.findings || '-'}</td>
+                        <td><span class="badge ${daysClass}">${daysText}</span></td>
+                    </tr>
+                `;
+            });
+            
+            printContent += `
+                        </tbody>
+                    </table>
+                    
+                    <div class="footer">
+                        <p>TransCo IT/IS Support Request Management System | Report generated automatically</p>
+                        <p>This report contains ${filteredData.length} records | Page orientation: ${orientation}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            const printWindow = window.open('', '_blank');
+            if (printWindow) {
+                printWindow.document.write(printContent);
+                printWindow.document.close();
+                printWindow.print();
+            }
+            
+            document.getElementById('printDropdown').style.display = 'none';
+        }
+        
+        function openAddModal() {
+            editingRequestId = null;
+            document.getElementById('modalTitle').textContent = 'Add New Request';
+            document.getElementById('requestForm').reset();
+            
+            // Set current date and time
+            const now = new Date();
+            const dateStr = now.getFullYear() + '-' + 
+                           String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                           String(now.getDate()).padStart(2, '0');
+            const timeStr = String(now.getHours()).padStart(2, '0') + ':' + 
+                           String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('dateRequest').value = dateStr;
+            document.getElementById('timeRequest').value = timeStr;
+            
+            document.getElementById('requestModal').style.display = 'flex';
+        }
+        
+        function closeRequestModal() {
+            document.getElementById('requestModal').style.display = 'none';
+            editingRequestId = null;
+        }
+        
+        function editRequest(button) {
+            const row = button.closest('tr');
+            const requestId = row.dataset.requestId;
+            const request = requests.find(r => r.id === requestId);
+            
+            if (!request) return;
+            
+            editingRequestId = requestId;
+            document.getElementById('modalTitle').textContent = 'Edit Request';
+            
+            // Populate form with request data
+            document.getElementById('requestor').value = request.requestor;
+            document.getElementById('costCenter').value = request.costCenter || '';
+            document.getElementById('dateRequest').value = formatDateToYYYYMMDD(request.dateRequest);
+            document.getElementById('timeRequest').value = request.timeRequest;
+            document.getElementById('supportDesk').value = request.supportDesk;
+            document.getElementById('dateAcknowledge').value = formatDateToYYYYMMDD(request.dateAcknowledge);
+            document.getElementById('acknowledgedBy').value = request.acknowledgedBy || '';
+            document.getElementById('dateClosed').value = formatDateToYYYYMMDD(request.dateClosed);
+            document.getElementById('timeClosed').value = request.timeClosed || '';
+            document.getElementById('techSupport').value = request.techSupport || '';
+            document.getElementById('status').value = request.status;
+            document.getElementById('remarks').value = request.remarks || '';
+            document.getElementById('emailSubject').value = request.emailSubject || '';
+            document.getElementById('findings').value = request.findings || '';
+            
+            document.getElementById('requestModal').style.display = 'flex';
+        }
+        
+        function viewRequest(button) {
+            const row = button.closest('tr');
+            const requestId = row.dataset.requestId;
+            const request = requests.find(r => r.id === requestId);
+            
+            if (!request) return;
+            
+            const daysText = request.daysToComplete > 0 ? `${request.daysToComplete} day${request.daysToComplete !== 1 ? 's' : ''}` : '-';
+            
+            const content = `
+                <div class="view-content">
+                    <div class="view-section">
+                        <h3>
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                            </svg>
+                            Request Information
+                        </h3>
+                        <div class="view-grid">
+                            <div class="view-item">
+                                <label>Requestor:</label>
+                                <span>${request.requestor}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Cost Center:</label>
+                                <span>${request.costCenter || '-'}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Date Request:</label>
+                                <span>${request.dateRequest}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Time Request:</label>
+                                <span>${request.timeRequest}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Support Desk:</label>
+                                <span>${request.supportDesk}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Status:</label>
+                                <span>${request.status}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Email Subject:</label>
+                                <span>${request.emailSubject || '-'}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Days to Complete:</label>
+                                <span>${daysText}</span>
+                            </div>
+                        </div>
+                        <div class="view-item" style="margin-top: 1rem;">
+                            <label>Findings:</label>
+                            <div class="remarks-content">${request.findings || '-'}</div>
+                        </div>
+                    </div>
+                    <div class="view-section">
+                        <h3>
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Administrative Details
+                        </h3>
+                        <div class="view-grid">
+                            <div class="view-item">
+                                <label>Date Acknowledged:</label>
+                                <span>${request.dateAcknowledge || '-'}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Acknowledged By:</label>
+                                <span>${request.acknowledgedBy || '-'}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Date Closed:</label>
+                                <span>${request.dateClosed || '-'}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Time Closed:</label>
+                                <span>${request.timeClosed || '-'}</span>
+                            </div>
+                            <div class="view-item">
+                                <label>Tech Support:</label>
+                                <span>${request.techSupport || '-'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-section">
+                        <h3>Remarks</h3>
+                        <div class="remarks-content">${request.remarks || 'No remarks provided.'}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('viewModalBody').innerHTML = content;
+            document.getElementById('viewModal').style.display = 'flex';
+        }
+        
+        function closeViewModal() {
+            document.getElementById('viewModal').style.display = 'none';
+        }
+        
+        function deleteRequest(button) {
+            if (confirm('Are you sure you want to delete this request?')) {
+                const row = button.closest('tr');
+                const requestId = row.dataset.requestId;
+                requests = requests.filter(r => r.id !== requestId);
+                saveRequests();
+                renderTable();
+                updateStats();
+            }
+        }
+        
+        // Enhanced Filter functions
+        function toggleFilters() {
+            const filterSection = document.getElementById('filterSection');
+            filterSection.style.display = filterSection.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function applyFilters() {
+            renderTable();
+        }
+        
+        function clearFilters() {
+            document.getElementById('filterRequestor').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterSupport').value = '';
+            document.getElementById('filterDateFrom').value = '';
+            document.getElementById('filterDateTo').value = '';
+            renderTable();
+        }
+        
+        // Utility functions
+        function refreshTable() {
+            loadRequests();
+            renderTable();
+            updateStats();
+            alert('Data refreshed!');
+        }
+        
+        function exportData() {
+            const requestorFilter = document.getElementById('filterRequestor').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const supportFilter = document.getElementById('filterSupport').value;
+            const dateFromFilter = document.getElementById('filterDateFrom').value;
+            const dateToFilter = document.getElementById('filterDateTo').value;
+            
+            let filteredRequests = requests.filter(request => {
+                if (requestorFilter && !request.requestor.toLowerCase().includes(requestorFilter)) return false;
+                if (statusFilter && request.status !== statusFilter) return false;
+                if (supportFilter && request.supportDesk !== supportFilter) return false;
+                if (dateFromFilter && formatDateToYYYYMMDD(request.dateRequest) < dateFromFilter) return false;
+                if (dateToFilter && formatDateToYYYYMMDD(request.dateRequest) > dateToFilter) return false;
+                return true;
+            });
+            
+            // Enhanced CSV content with better formatting and BOM for Excel compatibility
+            const BOM = '\uFEFF'; // Byte Order Mark for proper Excel encoding
+            let csvContent = BOM + [
+                [
+                    "No.",
+                    "Requestor",
+                    "Cost Center",
+                    "Date Request",
+                    "Time Request",
+                    "Support Desk",
+                    "Date Acknowledge",
+                    "Acknowledged By",
+                    "Date Closed",
+                    "Time Closed",
+                    "Tech Support",
+                    "Status",
+                    "Remarks",
+                    "Email Subject",
+                    "Findings",
+                    "Days to Complete"
+                ].map(field => `"${field}"`).join(",")
+            ].join("");
+            
+            filteredRequests.forEach((request, index) => {
+                const daysText = request.daysToComplete > 0 ? `${request.daysToComplete} day${request.daysToComplete !== 1 ? 's' : ''}` : '-';
+                csvContent += "\n" + [
+                    index + 1,
+                    `"${request.requestor.replace(/"/g, '""')}"`,
+                    `"${(request.costCenter || '').replace(/"/g, '""')}"`,
+                    `"${request.dateRequest}"`,
+                    `"${request.timeRequest}"`,
+                    `"${request.supportDesk}"`,
+                    `"${(request.dateAcknowledge || '').replace(/"/g, '""')}"`,
+                    `"${(request.acknowledgedBy || '').replace(/"/g, '""')}"`,
+                    `"${(request.dateClosed || '').replace(/"/g, '""')}"`,
+                    `"${(request.timeClosed || '').replace(/"/g, '""')}"`,
+                    `"${(request.techSupport || '').replace(/"/g, '""')}"`,
+                    `"${request.status}"`,
+                    `"${(request.remarks || '').replace(/"/g, '""')}"`,
+                    `"${(request.emailSubject || '').replace(/"/g, '""')}"`,
+                    `"${(request.findings || '').replace(/"/g, '""')}"`,
+                    `"${daysText}"`
+                ].join(",");
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transco-support-requests-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function calculateBusinessDays(acknowledgeDate, closedDate, acknowledgeTime, closedTime) {
+            if (!acknowledgeDate || !closedDate) return 0;
+            
+            const start = new Date(formatDateToYYYYMMDD(acknowledgeDate) + 'T' + (acknowledgeTime || '09:00'));
+            const end = new Date(formatDateToYYYYMMDD(closedDate) + 'T' + (closedTime || '17:00'));
+            
+            let businessDays = 0;
+            const currentDate = new Date(start);
+            
+            while (currentDate <= end) {
+                // Check if it's a weekday (Monday = 1, Friday = 5)
+                if (currentDate.getDay() >= 1 && currentDate.getDay() <= 5) {
+                    businessDays++;
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return Math.max(businessDays, 1);
+        }
+        
+        function renderTable() {
+            const requestorFilter = document.getElementById('filterRequestor').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const supportFilter = document.getElementById('filterSupport').value;
+            const dateFromFilter = document.getElementById('filterDateFrom').value;
+            const dateToFilter = document.getElementById('filterDateTo').value;
+            
+            let filteredRequests = requests.filter(request => {
+                if (requestorFilter && !request.requestor.toLowerCase().includes(requestorFilter)) return false;
+                if (statusFilter && request.status !== statusFilter) return false;
+                if (supportFilter && request.supportDesk !== supportFilter) return false;
+                if (dateFromFilter && formatDateToYYYYMMDD(request.dateRequest) < dateFromFilter) return false;
+                if (dateToFilter && formatDateToYYYYMMDD(request.dateRequest) > dateToFilter) return false;
+                return true;
+            });
+            
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            
+            filteredRequests.forEach(request => {
+                const row = document.createElement('tr');
+                row.dataset.requestId = request.id;
+                
+                const daysText = request.daysToComplete > 0 ? `${request.daysToComplete} day${request.daysToComplete !== 1 ? 's' : ''}` : '-';
+                const daysClass = request.daysToComplete === 0 ? 'pending' : (request.daysToComplete > 3 ? 'overdue' : '');
+                
+                row.innerHTML = `
+                    <td>${request.requestor}</td>
+                    <td>${request.costCenter || '-'}</td>
+                    <td>${request.dateRequest}</td>
+                    <td>${request.timeRequest}</td>
+                    <td><span class="badge ${request.supportDesk.toLowerCase().replace(' ', '-')}">${request.supportDesk}</span></td>
+                    <td>${request.dateAcknowledge || '-'}</td>
+                    <td>${request.acknowledgedBy || '-'}</td>
+                    <td>${request.dateClosed || '-'}</td>
+                    <td>${request.timeClosed || '-'}</td>
+                    <td>${request.techSupport || '-'}</td>
+                    <td><span class="status-badge ${request.status.toLowerCase().replace(' ', '-')}">${request.status}</span></td>
+                    <td>${request.remarks || '-'}</td>
+                    <td>${request.emailSubject || '-'}</td>
+                    <td>${request.findings || '-'}</td>
+                    <td><span class="days-badge ${daysClass}">${daysText}</span></td>
+                    <td class="no-print">
+                        <div class="action-buttons">
+                            <button class="btn-edit" onclick="editRequest(this)" title="Edit">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button class="btn-view" onclick="viewRequest(this)" title="View">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </button>
+                            <button class="btn-delete" onclick="deleteRequest(this)" title="Delete">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Update pagination info
+            document.getElementById('showingStart').textContent = filteredRequests.length > 0 ? '1' : '0';
+            document.getElementById('showingEnd').textContent = filteredRequests.length.toString();
+            document.getElementById('totalEntries').textContent = filteredRequests.length.toString();
+        }
+        
+        function updateStats() {
+            const total = requests.length;
+            const pending = requests.filter(r => r.status === 'Open').length;
+            const completed = requests.filter(r => r.status === 'Resolved' || r.status === 'Closed').length;
+            const inProgress = requests.filter(r => r.status === 'In Progress').length;
+            
+            document.getElementById('totalRequests').textContent = total;
+            document.getElementById('pendingRequests').textContent = pending;
+            document.getElementById('completedRequests').textContent = completed;
+            document.getElementById('inProgressRequests').textContent = inProgress;
+        }
+
+        // Navigation functions
+        function showAbout() {
+            alert('About TransCo - IT/IS Support Request Management System\n\nVersion 2.0\nDeveloped for efficient support request tracking and management.');
+        }
+
+        function showContacts() {
+            alert('Contact Information:\n\nEmail: support@transco.com\nPhone: +1 (555) 123-4567\nAddress: 123 Business Ave, Suite 100\nCity, State 12345');
+        }
+
+        function showForms() {
+            alert('Forms section - Additional forms and templates will be available here in future updates.');
+        }
+        
+        // Form submission handlers
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            login(email, password);
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+            
+            // Mock signup
+            currentUser = { name: fullName, email: email };
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            saveUser();
+            showDashboard();
+        });
+
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('forgotEmail').value;
+            
+            if (!email) {
+                alert('Please enter your email address.');
+                return;
+            }
+            
+            closeForgotPasswordModal();
+            alert('Password reset link sent to your email!');
+        });
+
+        // Print options form handler
+        document.getElementById('printOptionsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const printType = document.getElementById('printType').value;
+            const printOrientation = document.getElementById('printOrientation').value;
+            
+            printReport(printType, printOrientation);
+            closePrintOptionsModal();
+        });
+        
+        // Form submission handler for request form
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            // Basic validation
+            const requiredFields = ['requestor', 'dateRequest', 'timeRequest', 'supportDesk'];
+            let isValid = true;
+            
+            requiredFields.forEach(function(field) {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#ef4444';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '#d1d5db';
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Calculate business days using acknowledge and closed dates
+            const businessDays = calculateBusinessDays(
+                formData.get('dateAcknowledge'),
+                formData.get('dateClosed'),
+                formData.get('timeRequest'),
+                formData.get('timeClosed')
+            );
+
+            const requestData = {
+                id: editingRequestId || Date.now().toString(),
+                requestor: formData.get('requestor'),
+                costCenter: formData.get('costCenter') || '',
+                dateRequest: formatDateToMMDDYYYY(formData.get('dateRequest')),
+                timeRequest: formData.get('timeRequest'),
+                supportDesk: formData.get('supportDesk'),
+                dateAcknowledge: formData.get('dateAcknowledge') ? formatDateToMMDDYYYY(formData.get('dateAcknowledge')) : '',
+                acknowledgedBy: formData.get('acknowledgedBy') || '',
+                dateClosed: formData.get('dateClosed') ? formatDateToMMDDYYYY(formData.get('dateClosed')) : '',
+                timeClosed: formData.get('timeClosed') || '',
+                techSupport: formData.get('techSupport') || '',
+                status: formData.get('status') || 'Open',
+                remarks: formData.get('remarks') || '',
+                emailSubject: formData.get('emailSubject') || '',
+                findings: formData.get('findings') || '',
+                daysToComplete: businessDays
+            };
+            
+            if (editingRequestId) {
+                // Update existing request
+                const index = requests.findIndex(r => r.id === editingRequestId);
+                if (index !== -1) {
+                    requests[index] = requestData;
+                }
+            } else {
+                // Add new request
+                requests.push(requestData);
+            }
+            
+            saveRequests();
+            renderTable();
+            updateStats();
+            closeRequestModal();
+            
+            alert(editingRequestId ? 'Request updated successfully!' : 'Request submitted successfully!');
+        });
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = ['requestModal', 'profileModal', 'viewModal', 'forgotPasswordModal', 'printOptionsModal'];
+            modals.forEach(function(modalId) {
+                const modal = document.getElementById(modalId);
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Close print dropdown
+            const printDropdown = document.getElementById('printDropdown');
+            if (!event.target.matches('.print-btn') && !event.target.closest('.print-dropdown')) {
+                printDropdown.style.display = 'none';
+            }
+        };
+        
+        // Initialize application - Fixed landing page bug
+        document.addEventListener('DOMContentLoaded', function() {
+            // Always start with login page, don't auto-login
+            showLogin();
+            
+            // Load requests for when user does login
+            loadRequests();
+        });
+    </script>
+</body>
+</html>
